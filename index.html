@@ -1,0 +1,2640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Litematica Complete Reference Guide</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  --bg-primary: #0d0d1a;
+  --bg-secondary: #1a1a2e;
+  --bg-card: #16213e;
+  --bg-card-hover: #1f2d50;
+  --accent: #e94560;
+  --accent-dim: #b83348;
+  --accent-glow: rgba(233, 69, 96, 0.15);
+  --blue: #0f3460;
+  --blue-bright: #4a9eff;
+  --green: #00d4aa;
+  --green-dim: rgba(0, 212, 170, 0.15);
+  --yellow: #ffd700;
+  --yellow-dim: rgba(255, 215, 0, 0.15);
+  --red: #ff4757;
+  --red-dim: rgba(255, 71, 87, 0.15);
+  --orange: #ff8c00;
+  --orange-dim: rgba(255, 140, 0, 0.15);
+  --text-primary: #e8eaf6;
+  --text-secondary: #a0a8c0;
+  --text-muted: #6b7280;
+  --border: rgba(255,255,255,0.08);
+  --border-accent: rgba(233, 69, 96, 0.3);
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --radius: 12px;
+  --radius-sm: 6px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* ─── LAYOUT ─── */
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+}
+
+/* ─── HEADER ─── */
+header {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, #0d0d1a 0%, #1a0a2e 50%, #0d1a2e 100%);
+  border-bottom: 1px solid var(--border-accent);
+  padding: 2.5rem 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -10%;
+  width: 60%;
+  height: 200%;
+  background: radial-gradient(ellipse, rgba(233,69,96,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.header-content {
+  position: relative;
+  z-index: 1;
+}
+
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--accent-glow);
+  border: 1px solid var(--border-accent);
+  border-radius: 999px;
+  padding: 0.3rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+
+h1 span { color: var(--accent); }
+
+.header-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+.header-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* ─── SIDEBAR NAV ─── */
+nav {
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border);
+  padding: 2rem 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+nav::-webkit-scrollbar { width: 4px; }
+nav::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.nav-section-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0.75rem 1.5rem 0.3rem;
+  margin-top: 0.5rem;
+}
+
+nav a {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 1.5rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.875rem;
+  border-left: 3px solid transparent;
+  transition: all 0.2s;
+}
+
+nav a:hover {
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.04);
+  border-left-color: var(--accent);
+}
+
+nav a.active {
+  color: var(--accent);
+  background: var(--accent-glow);
+  border-left-color: var(--accent);
+  font-weight: 600;
+}
+
+/* ─── MAIN CONTENT ─── */
+main {
+  padding: 3rem;
+  max-width: 960px;
+}
+
+/* ─── SECTIONS ─── */
+section {
+  margin-bottom: 4rem;
+  scroll-margin-top: 2rem;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 2rem 0 0.75rem;
+}
+
+h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 1.5rem 0 0.5rem;
+}
+
+p {
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+/* ─── CARDS ─── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: border-color 0.2s;
+}
+
+.card:hover { border-color: rgba(255,255,255,0.15); }
+
+.card-accent {
+  border-left: 3px solid var(--accent);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ─── MODE CARDS ─── */
+.mode-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.mode-card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, var(--bg-card) 0%, var(--blue) 200%);
+  border-bottom: 1px solid var(--border);
+}
+
+.mode-number {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--accent);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  box-shadow: 0 0 16px var(--accent-glow);
+}
+
+.mode-card-body { padding: 1.5rem; }
+
+.mode-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+
+.tag-creative {
+  background: var(--orange-dim);
+  color: var(--orange);
+  border: 1px solid rgba(255,140,0,0.3);
+}
+
+.tag-any {
+  background: var(--green-dim);
+  color: var(--green);
+  border: 1px solid rgba(0,212,170,0.3);
+}
+
+/* ─── TABLES ─── */
+.table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius-sm);
+  margin-bottom: 1.5rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+th {
+  background: var(--bg-primary);
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+  vertical-align: top;
+}
+
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(255,255,255,0.02); }
+
+/* ─── KBD ─── */
+kbd {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #e8eaf6;
+  background: #252540;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-bottom: 2px solid rgba(255,255,255,0.1);
+  border-radius: 4px;
+  padding: 0.2rem 0.55rem;
+  white-space: nowrap;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.4);
+}
+
+.combo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+}
+
+.combo-sep {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+/* ─── CALLOUT BOXES ─── */
+.callout {
+  display: flex;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--radius-sm);
+  margin: 1.5rem 0;
+  border: 1px solid;
+}
+
+.callout-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+}
+
+.callout-body h5 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.callout-body p {
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.callout-tip {
+  background: var(--green-dim);
+  border-color: rgba(0,212,170,0.25);
+  color: var(--green);
+}
+
+.callout-tip .callout-body h5 { color: var(--green); }
+.callout-tip .callout-body p { color: rgba(0,212,170,0.8); }
+
+.callout-warn {
+  background: var(--yellow-dim);
+  border-color: rgba(255,215,0,0.25);
+  color: var(--yellow);
+}
+
+.callout-warn .callout-body h5 { color: var(--yellow); }
+.callout-warn .callout-body p { color: rgba(255,215,0,0.8); }
+
+.callout-danger {
+  background: var(--red-dim);
+  border-color: rgba(255,71,87,0.25);
+  color: var(--red);
+}
+
+.callout-danger .callout-body h5 { color: var(--red); }
+.callout-danger .callout-body p { color: rgba(255,71,87,0.8); }
+
+.callout-info {
+  background: rgba(74,158,255,0.08);
+  border-color: rgba(74,158,255,0.25);
+  color: var(--blue-bright);
+}
+
+.callout-info .callout-body h5 { color: var(--blue-bright); }
+.callout-info .callout-body p { color: rgba(74,158,255,0.8); }
+
+/* ─── STATUS BADGES ─── */
+.status-yes {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--green);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.status-partial {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--yellow);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.status-no {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--red);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+/* ─── STEP LIST ─── */
+.steps {
+  list-style: none;
+  counter-reset: step-counter;
+}
+
+.steps li {
+  counter-increment: step-counter;
+  display: flex;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.steps li:last-child { border-bottom: none; }
+
+.steps li::before {
+  content: counter(step-counter);
+  width: 1.75rem;
+  height: 1.75rem;
+  min-width: 1.75rem;
+  background: var(--accent);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+}
+
+/* ─── VERIFIER COLOR LEGEND ─── */
+.legend-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+
+.legend-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.legend-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.legend-desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ─── INLINE CODE ─── */
+code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82em;
+  color: var(--accent);
+  background: rgba(233,69,96,0.1);
+  padding: 0.1em 0.4em;
+  border-radius: 3px;
+}
+
+/* ─── DIVIDER ─── */
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+/* ─── PRO TIPS ─── */
+.tip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.tip-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1.25rem;
+  border-left: 3px solid var(--accent);
+}
+
+.tip-card h5 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.4rem;
+}
+
+.tip-card p {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ─── BADGE ─── */
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.badge-mode {
+  background: rgba(74,158,255,0.15);
+  color: var(--blue-bright);
+  border: 1px solid rgba(74,158,255,0.3);
+}
+
+/* ─── SCROLL TO TOP ─── */
+.scroll-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(233,69,96,0.4);
+  transition: transform 0.2s;
+  text-decoration: none;
+}
+
+.scroll-top:hover { transform: translateY(-2px); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  nav {
+    display: none;
+  }
+  main {
+    padding: 2rem 1.5rem;
+  }
+  header {
+    padding: 2rem 1.5rem;
+  }
+}
+
+/* ─── UTILITY ─── */
+ul.bullet {
+  list-style: none;
+  padding: 0;
+}
+
+ul.bullet li {
+  padding: 0.3rem 0;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  padding-left: 1.25rem;
+  position: relative;
+}
+
+ul.bullet li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 640px) {
+  .two-col { grid-template-columns: 1fr; }
+  .card-grid { grid-template-columns: 1fr; }
+}
+
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.highlight { color: var(--accent); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+<!-- ─── HEADER ─── -->
+<header>
+  <div class="header-content">
+    <div class="header-badge">⛏️ Minecraft Mod Reference</div>
+    <h1>Litematica <span>Complete Guide</span></h1>
+    <p style="color:var(--text-secondary); max-width:600px; margin-top:0.5rem;">
+      Schematic blueprints, auto-placement, layer building, and verification — everything you need for precision Minecraft construction.
+    </p>
+    <div class="header-meta">
+      <div class="header-meta-item">🎮 Fabric · MaLiLib</div>
+      <div class="header-meta-item">🌐 Client-side — works on Realms</div>
+      <div class="header-meta-item">🔑 Key prefix: <kbd>M</kbd></div>
+      <div class="header-meta-item">⚙️ v26.1.2 keybindings</div>
+    </div>
+  </div>
+</header>
+
+<!-- ─── SIDEBAR ─── -->
+<nav>
+  <div class="nav-section-label">Getting Started</div>
+  <a href="#overview">🗺️ Overview & Philosophy</a>
+  <a href="#modes">🛠️ Tool Modes</a>
+
+  <div class="nav-section-label">Tool Modes</div>
+  <a href="#mode-area">📐 Area Selection</a>
+  <a href="#mode-placement">🔵 Schematic Placement</a>
+  <a href="#mode-fill">🟧 Fill</a>
+  <a href="#mode-replace">🔄 Replace Block</a>
+  <a href="#mode-paste">📋 Paste Schematic</a>
+  <a href="#mode-grid">🔲 Grid Paste</a>
+  <a href="#mode-move">↔️ Move</a>
+  <a href="#mode-delete">🗑️ Delete</a>
+  <a href="#mode-edit">✏️ Schematic Edit</a>
+
+  <div class="nav-section-label">Features</div>
+  <a href="#layers">📚 Layer-by-Layer Building</a>
+  <a href="#easyplace">⚡ Easy Place</a>
+  <a href="#verifier">🔍 Schematic Verifier</a>
+  <a href="#materials">📦 Material List</a>
+  <a href="#placement-controls">🎯 Placement Controls</a>
+  <a href="#capture">📸 Capture Workflow</a>
+
+  <div class="nav-section-label">Reference</div>
+  <a href="#realms">🌐 Works on Realms</a>
+  <a href="#hotkeys">⌨️ All Hotkeys</a>
+  <a href="#protips">💡 Pro Tips</a>
+</nav>
+
+<!-- ─── MAIN CONTENT ─── -->
+<main>
+
+<!-- ──────────────────────────────────────────── -->
+<!-- SECTION: OVERVIEW -->
+<!-- ──────────────────────────────────────────── -->
+<section id="overview">
+  <div class="section-header">
+    <span class="section-icon">🗺️</span>
+    <h2>Overview &amp; Philosophy</h2>
+  </div>
+
+  <p>Litematica is a <strong>purely client-side schematic mod</strong> for Minecraft Java Edition (Fabric). It renders a ghost "hologram" overlay of a structure you want to build, and provides tools to select, save, verify, and — in creative mode — bulk-paste structures.</p>
+
+  <p style="margin-top:0.75rem;">
+    <a href="https://modrinth.com/mod/litematica" style="color:var(--blue-bright); margin-right:1.5rem;">⬇ Download on Modrinth</a>
+    <a href="https://github.com/maruohon/litematica" style="color:var(--blue-bright);">⌥ Source on GitHub</a>
+  </p>
+
+  <div class="card-grid">
+    <div class="card card-accent">
+      <h4>What It Does</h4>
+      <ul class="bullet">
+        <li>Displays ghost blueprint overlays of schematics</li>
+        <li>Guides block-by-block building in survival</li>
+        <li>Captures existing builds as schematic files</li>
+        <li>Verifies your build matches the schematic</li>
+        <li>Tracks what materials you still need</li>
+        <li>Pastes schematics in creative mode</li>
+      </ul>
+    </div>
+    <div class="card card-accent">
+      <h4>Works On</h4>
+      <ul class="bullet">
+        <li>Singleplayer worlds</li>
+        <li>Minecraft Realms ✓</li>
+        <li>Vanilla servers ✓</li>
+        <li>Fabric servers (enhanced features)</li>
+        <li>Any server — no mods needed server-side</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-info">
+    <span class="callout-icon">ℹ️</span>
+    <div class="callout-body">
+      <h5>Client-Only Mod</h5>
+      <p>Litematica runs entirely on your machine. The server never knows it exists. Ghost rendering, layer mode, material list, and the schematic verifier all work on vanilla Realms with zero server setup.</p>
+    </div>
+  </div>
+
+  <h3>Requirements</h3>
+  <div class="two-col">
+    <div class="card">
+      <h4>Required</h4>
+      <ul class="bullet">
+        <li>Fabric Loader</li>
+        <li>MaLiLib (library mod)</li>
+        <li>Litematica itself</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Recommended Companions</h4>
+      <ul class="bullet">
+        <li>Fabric API</li>
+        <li>MiniHUD (info overlays)</li>
+        <li>Tweakeroo (quality-of-life tweaks)</li>
+        <li>Item Scroller (inventory management)</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Schematic File Format</h3>
+  <p>Litematica uses the <code>.litematic</code> format. Place schematic files in <code>.minecraft/schematics/</code>. The mod also reads older <code>.schematic</code> files exported by WorldEdit or MCEdit.</p>
+</section>
+
+<!-- ──────────────────────────────────────────── -->
+<!-- SECTION: MODES OVERVIEW -->
+<!-- ──────────────────────────────────────────── -->
+<section id="modes">
+  <div class="section-header">
+    <span class="section-icon">🛠️</span>
+    <h2>Tool Modes</h2>
+  </div>
+
+  <p>Litematica has <strong>9 tool modes</strong>. The tool item (default: <strong>stick</strong>) changes behavior based on the active mode. A HUD at the bottom-left shows the current mode when you hold the tool. <strong>Clicks only work when you're holding the tool item</strong> — without a stick in hand, left-click just destroys blocks normally. Enable/disable with <kbd>M</kbd><kbd>T</kbd>.</p>
+
+  <div class="callout callout-tip">
+    <span class="callout-icon">💡</span>
+    <div class="callout-body">
+      <h5>Cycling Modes</h5>
+      <p>Hold <kbd>LEFT_CONTROL</kbd> and scroll the mouse wheel to cycle through tool modes. You can also use the mode button in the bottom-left of the main menu (<kbd>M</kbd>).</p>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Mode Name</th>
+          <th>Primary Use</th>
+          <th>Creative Only?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge badge-mode">1</span></td>
+          <td>Area Selection</td>
+          <td>Define regions to save as schematics</td>
+          <td><span class="status-yes">✓ Any mode</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-mode">2</span></td>
+          <td>Schematic Placement</td>
+          <td>Position &amp; orient ghost overlays</td>
+          <td><span class="status-yes">✓ Any mode</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-mode">3</span></td>
+          <td>Fill</td>
+          <td>Fill a selection with one block type</td>
+          <td><span class="status-no">⚠ Creative only</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-mode">4</span></td>
+          <td>Replace Block</td>
+          <td>Swap all blocks of one type with another</td>
+          <td><span class="status-no">⚠ Creative only</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-mode">5</span></td>
+          <td>Paste Schematic</td>
+          <td>Bulk-paste a schematic into the world</td>
+          <td><span class="status-no">⚠ Creative only</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-mode">6</span></td>
+          <td>Grid Paste</td>
+          <td>Paste in a repeating grid pattern</td>
+          <td><span class="status-no">⚠ Creative only</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-mode">7</span></td>
+          <td>Move</td>
+          <td>Physically move a region of the world</td>
+          <td><span class="status-no">⚠ Creative only</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-mode">8</span></td>
+          <td>Delete</td>
+          <td>Delete all blocks in a selection (fill w/ air)</td>
+          <td><span class="status-no">⚠ Creative only</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-mode">9</span></td>
+          <td>Schematic Edit</td>
+          <td>Edit a schematic in memory (not the world)</td>
+          <td><span class="status-yes">✓ Any mode</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────── -->
+<!-- MODE 1: AREA SELECTION -->
+<!-- ──────────────────────────────────────────── -->
+<section id="mode-area">
+  <div class="section-header">
+    <span class="section-icon">📐</span>
+    <h2>Mode 1 — Area Selection</h2>
+  </div>
+
+  <div class="mode-card">
+    <div class="mode-card-header">
+      <div class="mode-number">1</div>
+      <div>
+        <div style="font-weight:700; font-size:1.05rem;">Area Selection</div>
+        <div style="color:var(--text-muted); font-size:0.82rem; margin-top:0.2rem;">Define rectangular regions to capture as schematics</div>
+      </div>
+      <span class="mode-tag tag-any">Any game mode</span>
+    </div>
+    <div class="mode-card-body">
+      <p>Area Selection is where you define <em>what</em> to save. You draw one or more rectangular boxes around a structure. Once all chunks are loaded, you export the selection as a <code>.litematic</code> file.</p>
+
+      <div class="callout callout-warning">
+        <strong>⚠️ You must hold the tool item (default: stick)</strong><br>
+        Litematica only intercepts your clicks when you're holding the configured tool item. Without it, clicks do normal Minecraft things — breaking blocks in creative, placing in survival, etc. Keep a stick in your main hand or offhand. Enable the tool with <kbd>M</kbd><kbd>T</kbd> and confirm the ToolHUD is visible in the bottom-left. You can change the tool item in <kbd>M</kbd><kbd>C</kbd> → Generic → Tool Item.
+      </div>
+
+      <h3>Two Selection Sub-Modes</h3>
+      <p>Cycle between them with <kbd>LEFT_CONTROL</kbd><kbd>M</kbd>:</p>
+
+      <div class="two-col">
+        <div class="card">
+          <h4>Corners Mode (default)</h4>
+          <p style="font-size:0.875rem;">Left-click sets corner 1. Right-click sets corner 2. The box is defined by the two diagonal corners you click.</p>
+        </div>
+        <div class="card">
+          <h4>Expand Mode</h4>
+          <p style="font-size:0.875rem;">Right-click collapses the selection to the clicked point. Left-clicking on an edge <em>expands</em> the box outward. Good for growing a selection gradually.</p>
+        </div>
+      </div>
+
+      <h3>Mouse Controls (hold tool item)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Action</th><th>What Happens</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><kbd>Left Click</kbd></td>
+              <td>Set corner 1 at targeted block (Corners mode)</td>
+            </tr>
+            <tr>
+              <td><kbd>Right Click</kbd></td>
+              <td>Set corner 2 at targeted block (Corners mode)</td>
+            </tr>
+            <tr>
+              <td><kbd>Middle Click</kbd></td>
+              <td>Select a corner, edge, or sub-region box for adjustment</td>
+            </tr>
+            <tr>
+              <td><kbd>LEFT_ALT</kbd> + scroll</td>
+              <td>Nudge the selected corner/box in the direction you're looking</td>
+            </tr>
+            <tr>
+              <td><kbd>LEFT_ALT</kbd> + <kbd>Middle Click</kbd></td>
+              <td>Move the entire selection origin</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Keyboard Shortcuts</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Hotkey</th><th>Action</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="combo"><kbd>M</kbd><kbd>A</kbd></span></td>
+              <td>Add a new selection box (sub-region)</td>
+            </tr>
+            <tr>
+              <td><span class="combo"><kbd>M</kbd><kbd>S</kbd></span></td>
+              <td>Open Selection Manager</td>
+            </tr>
+            <tr>
+              <td><span class="combo"><kbd>KP_MULTIPLY</kbd></span></td>
+              <td>Open Area Editor (name, save, settings)</td>
+            </tr>
+            <tr>
+              <td><span class="combo"><kbd>LEFT_CONTROL</kbd><kbd>M</kbd></span></td>
+              <td>Cycle sub-mode: Corners ↔ Expand</td>
+            </tr>
+            <tr>
+              <td><span class="combo"><kbd>LEFT_CONTROL</kbd><kbd>LEFT_ALT</kbd><kbd>S</kbd></span></td>
+              <td>Save selection as schematic</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <h5>Missing Chunks Warning</h5>
+          <p>If your selection spans unloaded chunks, a "Missing Chunks" counter appears at the bottom-right. Walk through the entire selection area to load all chunks before saving, or the schematic will have gaps.</p>
+        </div>
+      </div>
+
+      <h3>Normal vs. Simple Mode</h3>
+      <p>Inside the Area Selection tool, there are two further modes controlling how many boxes you can have:</p>
+      <ul class="bullet">
+        <li><strong>Normal mode</strong> — multiple named sub-regions sharing one origin. Use this for complex builds with multiple distinct parts (e.g., a house + its garden + its basement as separate sub-regions).</li>
+        <li><strong>Simple mode</strong> — one box only. Faster for straightforward single-structure captures.</li>
+      </ul>
+
+      <h3>Server Notes</h3>
+      <p>Area selection is fully client-side. However, on multiplayer servers (including Realms), saved schematics will have <strong>empty containers</strong> — the server does not transmit chest/furnace inventory data to clients. Block structure is captured correctly; only NBT data in block entities is missing.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────── -->
+<!-- MODE 2: SCHEMATIC PLACEMENT -->
+<!-- ──────────────────────────────────────────── -->
+<section id="mode-placement">
+  <div class="section-header">
+    <span class="section-icon">🔵</span>
+    <h2>Mode 2 — Schematic Placement</h2>
+  </div>
+
+  <div class="mode-card">
+    <div class="mode-card-header">
+      <div class="mode-number">2</div>
+      <div>
+        <div style="font-weight:700; font-size:1.05rem;">Schematic Placement</div>
+        <div style="color:var(--text-muted); font-size:0.82rem; margin-top:0.2rem;">Position, rotate, and select loaded schematic overlays</div>
+      </div>
+      <span class="mode-tag tag-any">Any game mode</span>
+    </div>
+    <div class="mode-card-body">
+      <p>Schematic Placement mode is for positioning the ghost overlay in the world. No blocks are placed here — you are only moving, rotating, and selecting the <em>blueprint</em>. This is purely visual and client-side.</p>
+
+      <div class="callout callout-info">
+        <span class="callout-icon">ℹ️</span>
+        <div class="callout-body">
+          <h5>Selected Placement Indicator</h5>
+          <p>The currently selected placement is highlighted with a <strong>light cyan outline</strong> and its name appears in the tool HUD at the bottom-left of the screen.</p>
+        </div>
+      </div>
+
+      <h3>Mouse Controls (hold tool item)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Action</th><th>What Happens</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><kbd>Left Click</kbd> or <kbd>Right Click</kbd></td>
+              <td>Move the placement origin to the targeted block position</td>
+            </tr>
+            <tr>
+              <td><kbd>Middle Click</kbd></td>
+              <td>Select (cycle through) schematic placements in the world</td>
+            </tr>
+            <tr>
+              <td><kbd>LEFT_ALT</kbd> + scroll</td>
+              <td>Nudge the placement one block at a time in the direction you're looking</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Keyboard Shortcuts</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Hotkey</th><th>Action</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><kbd>M</kbd> <kbd>P</kbd></td>
+              <td>Open Schematic Placements list</td>
+            </tr>
+            <tr>
+              <td><kbd>KP_SUBTRACT</kbd></td>
+              <td>Open Placement Settings (rotate, mirror, offset)</td>
+            </tr>
+            <tr>
+              <td><kbd>M</kbd> <kbd>G</kbd></td>
+              <td>Toggle ghost block rendering on/off</td>
+            </tr>
+            <tr>
+              <td><kbd>M</kbd> <kbd>R</kbd></td>
+              <td>Toggle ALL mod rendering on/off</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Placement Configuration (KP_SUBTRACT)</h3>
+      <p>The Placement Settings screen lets you:</p>
+      <ul class="bullet">
+        <li>Rotate 90°, 180°, 270° (4 orientations)</li>
+        <li>Mirror on X or Z axis</li>
+        <li>Set exact coordinate offsets (X/Y/Z)</li>
+        <li>Enable "Grid" repetition (for Grid Paste mode)</li>
+        <li>Name the placement</li>
+        <li>Lock the placement against accidental moves</li>
+      </ul>
+
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <h5>Lock After Positioning</h5>
+          <p>Once you have the placement exactly where you want it, use the Placement Settings to <strong>lock it</strong>. An accidental click with the tool won't move it. Unlock when you need to reposition.</p>
+        </div>
+      </div>
+
+      <h3>Loading a Schematic</h3>
+      <ol class="steps">
+        <li>Place the <code>.litematic</code> file in <code>.minecraft/schematics/</code></li>
+        <li>Press <kbd>M</kbd> → "Load Schematics"</li>
+        <li>Select the file, check "Create a Placement," click "Load Schematic"</li>
+        <li>The ghost overlay appears in the world (offset may need adjustment)</li>
+        <li>Switch to Schematic Placement mode and position it correctly</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────── -->
+<!-- MODE 3: FILL -->
+<!-- ──────────────────────────────────────────── -->
+<section id="mode-fill">
+  <div class="section-header">
+    <span class="section-icon">🟧</span>
+    <h2>Mode 3 — Fill</h2>
+  </div>
+
+  <div class="mode-card">
+    <div class="mode-card-header">
+      <div class="mode-number">3</div>
+      <div>
+        <div style="font-weight:700; font-size:1.05rem;">Fill</div>
+        <div style="color:var(--text-muted); font-size:0.82rem; margin-top:0.2rem;">Fill the area selection with a single block type</div>
+      </div>
+      <span class="mode-tag tag-creative">Creative only</span>
+    </div>
+    <div class="mode-card-body">
+      <p>Fill mode replaces every block inside the current area selection with a single block type of your choosing. Useful for clearing large spaces, creating flat platforms, or prepping terrain.</p>
+
+      <h3>How to Use</h3>
+      <ol class="steps">
+        <li>Define your area selection (Mode 1) first</li>
+        <li>Switch to Fill mode (<kbd>LEFT_CONTROL</kbd> + scroll)</li>
+        <li>Hold the block you want to fill with in your main hand</li>
+        <li>Middle-click while holding <strong>TOOL_SELECT_MODIFIER_BLOCK_1</strong> to set the fill block</li>
+        <li>Press your <code>executeOperation</code> hotkey to run the fill (unbound by default — assign it in <kbd>M</kbd><kbd>C</kbd> → Hotkeys; <kbd>M</kbd><kbd>=</kbd> is one common choice)</li>
+      </ol>
+
+      <h3>Mouse Controls</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Action</th><th>What Happens</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><kbd>Left Click</kbd> / <kbd>Right Click</kbd></td>
+              <td>Set area selection corners (same as Area Selection mode)</td>
+            </tr>
+            <tr>
+              <td><kbd>Middle Click</kbd> (with modifier held)</td>
+              <td>Pick and set the primary fill block from the targeted block</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <h5>Server Requirements</h5>
+          <p>On multiplayer (including Realms), Fill sends <code>/fill</code> commands to the server. This requires operator permissions. On singleplayer, it modifies the world directly with no commands needed.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────── -->
+<!-- MODE 4: REPLACE BLOCK -->
+<!-- ──────────────────────────────────────────── -->
+<section id="mode-replace">
+  <div class="section-header">
+    <span class="section-icon">🔄</span>
+    <h2>Mode 4 — Replace Block</h2>
+  </div>
+
+  <div class="mode-card">
+    <div class="mode-card-header">
+      <div class="mode-number">4</div>
+      <div>
+        <div style="font-weight:700; font-size:1.05rem;">Replace Block</div>
+        <div style="color:var(--text-muted); font-size:0.82rem; margin-top:0.2rem;">Replace all instances of one block type with another within the selection</div>
+      </div>
+      <span class="mode-tag tag-creative">Creative only</span>
+    </div>
+    <div class="mode-card-body">
+      <p>Replace Block scans the area selection and swaps every block of <em>type A</em> for <em>type B</em>. Perfect for changing materials in a built structure — swapping oak planks for dark oak, or stone for deepslate.</p>
+
+      <h3>Block Slots</h3>
+      <ul class="bullet">
+        <li><strong>Primary block (Block 1)</strong> — the replacement block (what you want it to become)</li>
+        <li><strong>Secondary block (Block 2)</strong> — the block to be replaced (what's currently there)</li>
+      </ul>
+      <p>Set each by middle-clicking while holding the respective modifier key.</p>
+
+      <h3>Mouse Controls</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Action</th><th>What Happens</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><kbd>Middle Click</kbd> + BLOCK_1 modifier</td>
+              <td>Pick the primary (replacement) block from the targeted block</td>
+            </tr>
+            <tr>
+              <td><kbd>Middle Click</kbd> + BLOCK_2 modifier</td>
+              <td>Pick the secondary (to-be-replaced) block from the targeted block</td>
+            </tr>
+            <tr>
+              <td><kbd>Left Click</kbd> / <kbd>Right Click</kbd></td>
+              <td>Set area selection corners</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────── -->
+<!-- MODE 5: PASTE SCHEMATIC -->
+<!-- ──────────────────────────────────────────── -->
+<section id="mode-paste">
+  <div class="section-header">
+    <span class="section-icon">📋</span>
+    <h2>Mode 5 — Paste Schematic</h2>
+  </div>
+
+  <div class="mode-card">
+    <div class="mode-card-header">
+      <div class="mode-number">5</div>
+      <div>
+        <div style="font-weight:700; font-size:1.05rem;">Paste Schematic in World</div>
+        <div style="color:var(--text-muted); font-size:0.82rem; margin-top:0.2rem;">Bulk-place all blocks from the schematic into the real world</div>
+      </div>
+      <span class="mode-tag tag-creative">Creative only</span>
+    </div>
+    <div class="mode-card-body">
+
+      <div class="callout callout-danger">
+        <span class="callout-icon">🚫</span>
+        <div class="callout-body">
+          <h5>This Is NOT Easy Place</h5>
+          <p>Paste Schematic is a bulk one-shot operation that places hundreds or thousands of blocks at once via commands. Easy Place (a separate feature) is a gentle, one-block-at-a-time guided placement. Do not confuse them.</p>
+        </div>
+      </div>
+
+      <p>Paste Schematic sends a flood of <code>/setblock</code> and <code>/fill</code> commands to write the entire schematic into the real world instantly. No items are consumed. Player position and range don't matter. Blocks are placed server-side.</p>
+
+      <h3>Requirements Checklist</h3>
+      <ul class="bullet">
+        <li>Creative mode is <strong>mandatory</strong></li>
+        <li>A placement must be selected (cyan outline visible)</li>
+        <li>Tool item must be held (or disable that requirement in settings)</li>
+        <li>On Realms: you must be OP (realm owner or granted operator)</li>
+      </ul>
+
+      <h3>Paste Replace Behavior</h3>
+      <p>Cycle with <kbd>LEFT_CONTROL</kbd><kbd>M</kbd>:</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Setting</th><th>Behavior</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>None</strong></td>
+              <td>Only places blocks into empty air; existing blocks are never overwritten</td>
+            </tr>
+            <tr>
+              <td><strong>With non-air</strong></td>
+              <td>Non-air schematic blocks replace world blocks; schematic air does not carve spaces</td>
+            </tr>
+            <tr>
+              <td><strong>All</strong></td>
+              <td>Places everything — if the world block differs from the schematic block, it gets replaced</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Paste Controls</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Hotkey</th><th>Action</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><kbd>M</kbd><kbd>=</kbd> (<code>executeOperation</code> — unbound by default, set in <kbd>M</kbd><kbd>C</kbd> → Hotkeys)</td>
+              <td>Execute the paste — places all blocks</td>
+            </tr>
+            <tr>
+              <td><kbd>LEFT_CONTROL</kbd><kbd>M</kbd></td>
+              <td>Cycle paste replace behavior (None / With non-air / All)</td>
+            </tr>
+            <tr>
+              <td><kbd>Middle Click</kbd> on placement</td>
+              <td>Select a different placement to paste</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Singleplayer vs. Multiplayer</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Feature</th><th>Singleplayer</th><th>Realms / Multiplayer</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Block placement</td>
+              <td>Direct world write — instant</td>
+              <td>Via <code>/setblock</code> + <code>/fill</code> commands</td>
+            </tr>
+            <tr>
+              <td>NBT data (chests, signs)</td>
+              <td>Fully preserved</td>
+              <td>Empty — commands can't send full NBT</td>
+            </tr>
+            <tr>
+              <td>Block ticks (redstone)</td>
+              <td>Preserved</td>
+              <td>Lost</td>
+            </tr>
+            <tr>
+              <td>Block update suppression</td>
+              <td>Auto (no redstone fires)</td>
+              <td>Requires Carpet mod on server</td>
+            </tr>
+            <tr>
+              <td>Permissions needed</td>
+              <td>None</td>
+              <td>OP / <code>/setblock</code> permission</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Performance Settings</h3>
+      <ul class="bullet">
+        <li><code>pasteCommandLimit</code> — max <code>/setblock</code> commands per tick (default 64; lower to avoid kicks on Realms)</li>
+        <li><code>pasteCommandInterval</code> — ticks between paste bursts (increase on high-latency connections)</li>
+        <li><code>pasteUseFillCommand</code> — batch uniform regions into single <code>/fill</code> commands (fewer total commands)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────── -->
+<!-- MODE 6: GRID PASTE -->
+<!-- ──────────────────────────────────────────── -->
+<section id="mode-grid">
+  <div class="section-header">
+    <span class="section-icon">🔲</span>
+    <h2>Mode 6 — Grid Paste</h2>
+  </div>
+
+  <div class="mode-card">
+    <div class="mode-card-header">
+      <div class="mode-number">6</div>
+      <div>
+        <div style="font-weight:700; font-size:1.05rem;">Grid Paste Schematic</div>
+        <div style="color:var(--text-muted); font-size:0.82rem; margin-top:0.2rem;">Paste the schematic in a repeating grid pattern</div>
+      </div>
+      <span class="mode-tag tag-creative">Creative only</span>
+    </div>
+    <div class="mode-card-body">
+      <p>Grid Paste is identical to Paste Schematic but repeats the schematic in a configurable X/Y/Z grid. Excellent for tiling: identical houses in a row, fence sections repeated around a perimeter, floor tiles across a large area.</p>
+
+      <h3>Configuration</h3>
+      <p>Set up the repeat count and spacing via the Placement Settings screen (<kbd>KP_SUBTRACT</kbd>) → Grid/Repeat settings. Define how many copies in each axis and the block gap between them.</p>
+
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <h5>Use Case: Repeating Structures</h5>
+          <p>Build one house, save it as a schematic, then use Grid Paste with repeat count 5 on the X axis and 3 on the Z axis to instantly build a 5×3 grid of identical houses.</p>
+        </div>
+      </div>
+
+      <p>Server requirements and paste controls are identical to Mode 5 (Paste Schematic).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────── -->
+<!-- MODE 7: MOVE -->
+<!-- ──────────────────────────────────────────── -->
+<section id="mode-move">
+  <div class="section-header">
+    <span class="section-icon">↔️</span>
+    <h2>Mode 7 — Move</h2>
+  </div>
+
+  <div class="mode-card">
+    <div class="mode-card-header">
+      <div class="mode-number">7</div>
+      <div>
+        <div style="font-weight:700; font-size:1.05rem;">Move</div>
+        <div style="color:var(--text-muted); font-size:0.82rem; margin-top:0.2rem;">Physically cut and paste a selected region to a new location</div>
+      </div>
+      <span class="mode-tag tag-creative">Creative only</span>
+    </div>
+    <div class="mode-card-body">
+      <p>Move physically relocates real-world blocks from one location to another. It's a cut-and-paste for the actual world — the original position becomes air, the new position gets the blocks. Useful for relocating a misplaced structure.</p>
+
+      <h3>Mouse Controls</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Action</th><th>What Happens</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><kbd>Left Click</kbd></td>
+              <td>Set corner 1 of the area to move</td>
+            </tr>
+            <tr>
+              <td><kbd>Right Click</kbd></td>
+              <td>Set corner 2 of the area to move</td>
+            </tr>
+            <tr>
+              <td><kbd>Middle Click</kbd></td>
+              <td>Select a corner or the origin</td>
+            </tr>
+            <tr>
+              <td>Scroll + <em>grab modifier</em></td>
+              <td>Move the actual world blocks one block in the direction you're looking (cut + paste). The grab modifier key is <strong>unbound by default</strong> — assign it in <kbd>M</kbd><kbd>C</kbd> → Hotkeys → <code>selectionGrabModifier</code>.</td>
+            </tr>
+            <tr>
+              <td>Scroll + <em>nudge modifier</em></td>
+              <td>Nudge the area selection box itself (without moving blocks). The nudge modifier is <strong><kbd>LEFT_ALT</kbd> by default</strong> (<code>selectionNudgeModifier</code> in <kbd>M</kbd><kbd>C</kbd> → Hotkeys). Hold LEFT_ALT and scroll to shift the selection 1 block at a time.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <h5>Destructive Operation</h5>
+          <p>Move permanently removes blocks from the source location. There is no undo. Use with care, especially in Survival or on shared worlds.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────── -->
+<!-- MODE 8: DELETE -->
+<!-- ──────────────────────────────────────────── -->
+<section id="mode-delete">
+  <div class="section-header">
+    <span class="section-icon">🗑️</span>
+    <h2>Mode 8 — Delete</h2>
+  </div>
+
+  <div class="mode-card">
+    <div class="mode-card-header">
+      <div class="mode-number">8</div>
+      <div>
+        <div style="font-weight:700; font-size:1.05rem;">Delete</div>
+        <div style="color:var(--text-muted); font-size:0.82rem; margin-top:0.2rem;">Fill the selection or placement volume with air</div>
+      </div>
+      <span class="mode-tag tag-creative">Creative only</span>
+    </div>
+    <div class="mode-card-body">
+      <p>Delete fills the current area selection (or a schematic placement's bounding volume) with air. Toggle what gets deleted with <kbd>LEFT_CONTROL</kbd><kbd>M</kbd>:</p>
+
+      <div class="two-col">
+        <div class="card">
+          <h4>Area Selection Target</h4>
+          <p style="font-size:0.875rem;">Deletes everything inside the drawn area selection boxes.</p>
+        </div>
+        <div class="card">
+          <h4>Schematic Placement Target</h4>
+          <p style="font-size:0.875rem;">Deletes blocks within the exact volume of the selected placement. Great for clearing space exactly where you want to build.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-warning">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <h5>executeOperation is unbound by default</h5>
+          <p>The <code>executeOperation</code> hotkey triggers the deletion — but it has <strong>no default binding</strong>. You must assign it in <kbd>M</kbd><kbd>C</kbd> → Hotkeys before Delete mode will do anything (<kbd>M</kbd><kbd>=</kbd> is one common choice). This same hotkey also executes Fill, Replace Block, and Paste operations.</p>
+        </div>
+      </div>
+
+      <p>On multiplayer, requires <code>/fill</code> command permission (OP on Realms).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────── -->
+<!-- MODE 9: SCHEMATIC EDIT -->
+<!-- ──────────────────────────────────────────── -->
+<section id="mode-edit">
+  <div class="section-header">
+    <span class="section-icon">✏️</span>
+    <h2>Mode 9 — Schematic Edit</h2>
+  </div>
+
+  <div class="mode-card">
+    <div class="mode-card-header">
+      <div class="mode-number">9</div>
+      <div>
+        <div style="font-weight:700; font-size:1.05rem;">Schematic Edit (Rebuild)</div>
+        <div style="color:var(--text-muted); font-size:0.82rem; margin-top:0.2rem;">Modify the schematic blueprint in memory — does not touch the real world</div>
+      </div>
+      <span class="mode-tag tag-any">Any game mode</span>
+    </div>
+    <div class="mode-card-body">
+
+      <div class="callout callout-danger">
+        <span class="callout-icon">🚫</span>
+        <div class="callout-body">
+          <h5>Exit When Done!</h5>
+          <p>While in Schematic Edit mode, left-clicking and right-clicking edit the <em>schematic</em>, not the real world. When you finish editing, switch back to another mode or you'll accidentally modify the schematic every time you break or place a block near it.</p>
+        </div>
+      </div>
+
+      <p>Schematic Edit lets you modify the <strong>in-memory blueprint</strong> without touching the real world. Add, remove, or replace blocks inside the schematic. Changes are lost if you close the game without saving.</p>
+
+      <h3>Basic Mouse Controls</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Action</th><th>What Happens</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><kbd>Left Click</kbd> (punch)</td>
+              <td>Remove the targeted schematic block from the schematic</td>
+            </tr>
+            <tr>
+              <td><kbd>Right Click</kbd> (place)</td>
+              <td>Place/replace the targeted position with the held block</td>
+            </tr>
+            <tr>
+              <td><kbd>Middle Click</kbd></td>
+              <td>Store the targeted block's state for later use with empty hand</td>
+            </tr>
+            <tr>
+              <td><kbd>LEFT_ALT</kbd> + <kbd>Middle Click</kbd></td>
+              <td>Store targeted block state (toolSelectModifierBlock1 combo)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Bulk Operations (each needs its own hotkey bound in config)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Hotkey Name</th><th>How to Use</th><th>Effect</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>schematicEditReplaceBlock</code></td>
+              <td>Hold + right-click with new block in hand</td>
+              <td>Change that one block <em>type</em>, keeping all state properties (e.g. oak log → spruce log, same axis)</td>
+            </tr>
+            <tr>
+              <td><code>schematicEditReplaceAll</code></td>
+              <td>Hold + right-click with new block in hand</td>
+              <td>1:1 replacement — all identical block states everywhere in the schematic become the new block</td>
+            </tr>
+            <tr>
+              <td><code>schematicEditBreakAllExcept</code></td>
+              <td>Hold + left-click (punch) the block to keep</td>
+              <td>Remove everything in the schematic EXCEPT the block you punched</td>
+            </tr>
+            <tr>
+              <td><code>schematicEditBreakPlaceAll</code></td>
+              <td>Hold + punch to remove; hold + place to fill air</td>
+              <td>Removes all identical block instances, OR fills all air spaces with placed block</td>
+            </tr>
+            <tr>
+              <td><code>schematicEditReplaceDirection</code></td>
+              <td>Hold + right-click along a row</td>
+              <td>Replace blocks in a directional line (5-way arrow overlay shows direction)</td>
+            </tr>
+            <tr>
+              <td><code>schematicEditBreakPlaceDirection</code></td>
+              <td>Hold + punch/place along a row</td>
+              <td>Remove or fill blocks along directional rows</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Getting Complex Block States</h3>
+      <p>Some block states (open trapdoors, waterlogged blocks, fence connections) can't be obtained by simply clicking. The workaround:</p>
+      <ol class="steps">
+        <li>Place the block correctly in the <em>real world</em> first (in the right state)</li>
+        <li>In Schematic Edit mode, look at it and press <kbd>LEFT_ALT</kbd> + <kbd>Middle Click</kbd> to <strong>store that state</strong></li>
+        <li>Switch to an empty main hand</li>
+        <li>Right-click in the schematic to apply the stored state</li>
+        <li>The stored block name appears in the tool HUD when your hand is empty</li>
+      </ol>
+
+      <h3>Saving Edits</h3>
+      <p>Edits are in-memory only until you save:</p>
+      <ul class="bullet">
+        <li>Press <kbd>M</kbd> → "Loaded Schematics" → select your schematic → "Save to File"</li>
+        <li>Use a <em>new filename</em> — overwriting the original can corrupt it in some mod versions</li>
+        <li>Click "Reload" to discard all unsaved changes and revert</li>
+      </ul>
+
+      <div class="callout callout-info">
+        <span class="callout-icon">ℹ️</span>
+        <div class="callout-body">
+          <h5>No Server Permissions Needed</h5>
+          <p>Schematic Edit is entirely client-side. You're editing the blueprint in RAM, not the Minecraft world. Works on Realms, vanilla servers, or anything else with zero server requirements.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────── -->
+<!-- SECTION: LAYER-BY-LAYER BUILDING -->
+<!-- ──────────────────────────────────────────── -->
+<section id="layers">
+  <div class="section-header">
+    <span class="section-icon">📚</span>
+    <h2>Building Layer by Layer</h2>
+  </div>
+
+  <p>Layer rendering limits which Y-levels (or X/Z slices) of the schematic ghost are visible. Instead of seeing the entire 50-story ghost, you see just the floor you're currently working on. This is the core workflow for survival building with a schematic.</p>
+
+  <h3>Layer Modes</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Mode</th><th>What's Visible</th><th>Best For</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>All</strong></td>
+          <td>Entire schematic — no layer filter (default)</td>
+          <td>Getting an overview, placing schematics, small builds</td>
+        </tr>
+        <tr>
+          <td><strong>Single Layer</strong></td>
+          <td>Exactly one Y-level of the schematic</td>
+          <td>Precise floor-by-floor building in survival</td>
+        </tr>
+        <tr>
+          <td><strong>Layer Range</strong></td>
+          <td>A contiguous band of Y-levels you define</td>
+          <td>Building sections: "show floors 3–5 at once"</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Layer Controls</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Hotkey</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="combo"><kbd>M</kbd> + <kbd>PAGE_UP</kbd></span></td>
+          <td>Cycle to the <strong>next</strong> layer mode (All → Single → Range → All…)</td>
+        </tr>
+        <tr>
+          <td><span class="combo"><kbd>M</kbd> + <kbd>PAGE_DOWN</kbd></span></td>
+          <td>Cycle to the <strong>previous</strong> layer mode</td>
+        </tr>
+        <tr>
+          <td><span class="combo"><kbd>M</kbd> + <kbd>0</kbd></span></td>
+          <td><strong>Snap layer to player position</strong> — sets the active layer to your current Y coordinate</td>
+        </tr>
+        <tr>
+          <td><span class="combo"><kbd>LEFT_ALT</kbd> + <kbd>UP</kbd></span></td>
+          <td>Move the active layer up by one block</td>
+        </tr>
+        <tr>
+          <td><span class="combo"><kbd>LEFT_ALT</kbd> + <kbd>DOWN</kbd></span></td>
+          <td>Move the active layer down by one block</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-tip">
+    <span class="callout-icon">💡</span>
+    <div class="callout-body">
+      <h5>The Most Useful Hotkey for Layer Building: M+0</h5>
+      <p><kbd>M</kbd>+<kbd>0</kbd> snaps the layer rendering to your current feet position instantly. As you climb your structure floor by floor, just press M+0 and the ghost updates to show exactly the layer you're standing on — no counting blocks required.</p>
+    </div>
+  </div>
+
+  <h3>Layer-by-Layer Workflow</h3>
+  <ol class="steps">
+    <li>Load your schematic and position the placement correctly</li>
+    <li>Press <kbd>M</kbd>+<kbd>PAGE_UP</kbd> to switch to Single Layer mode</li>
+    <li>Stand at the starting layer (usually the foundation) and press <kbd>M</kbd>+<kbd>0</kbd> to snap the layer to your position</li>
+    <li>Build everything the ghost shows at that layer</li>
+    <li>Press <kbd>LEFT_ALT</kbd>+<kbd>UP</kbd> to advance one layer (or climb up and press <kbd>M</kbd>+<kbd>0</kbd> again)</li>
+    <li>Repeat until complete</li>
+    <li>Use <kbd>M</kbd>+<kbd>V</kbd> (Schematic Verifier) to check each section as you go</li>
+  </ol>
+
+  <h3>Axis Control</h3>
+  <p>Layer rendering doesn't have to be horizontal (Y-axis). In the Render Layer Edit screen (accessible via config), you can set the axis to <strong>X</strong>, <strong>Y</strong>, or <strong>Z</strong>, and optionally enable "Follow Player" to auto-track your position. For most builds, Y-axis (horizontal floors) is what you want.</p>
+
+  <div class="callout callout-info">
+    <span class="callout-icon">ℹ️</span>
+    <div class="callout-body">
+      <h5>Layer Mode Affects Verifier and Material List</h5>
+      <p>When a layer filter is active, the Schematic Verifier and Material List can be scoped to show only the visible layer range. This lets you verify floor 5 specifically, or count materials for just the next 3 layers you're about to build.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────── -->
+<!-- SECTION: EASY PLACE -->
+<!-- ──────────────────────────────────────────── -->
+<section id="easyplace">
+  <div class="section-header">
+    <span class="section-icon">⚡</span>
+    <h2>Easy Place — Guided Auto-Placement</h2>
+  </div>
+
+  <div class="callout callout-info">
+    <span class="callout-icon">ℹ️</span>
+    <div class="callout-body">
+      <h5>Easy Place is NOT Schematic Paste</h5>
+      <p>Easy Place is a one-block-at-a-time placement assistant. You still click every block yourself. It just makes sure each click lands on the right spot with the right block selected. Schematic Paste (Mode 5) is a bulk, fully-automated bulk command. They are completely different features.</p>
+    </div>
+  </div>
+
+  <h3>What Easy Place Does</h3>
+  <p>When Easy Place is active, every right-click you make is intercepted by Litematica. Instead of placing a block wherever you're pointing, it:</p>
+  <ol class="steps">
+    <li>Identifies the nearest schematic block that hasn't been placed yet</li>
+    <li>Automatically switches your hotbar to the correct block for that position</li>
+    <li>Redirects your click to the correct target position with the correct orientation</li>
+    <li>Places the block as a normal vanilla right-click — the server sees a completely ordinary block placement</li>
+  </ol>
+
+  <p>The server never knows Easy Place is running. It receives standard, unmodified block placement packets (with one exception — see the Protocol section below).</p>
+
+  <h3>How to Enable Easy Place</h3>
+  <ol class="steps">
+    <li>Press <kbd>M</kbd> to open the main menu</li>
+    <li>Go to <strong>Configuration Menu</strong> → <strong>Generic</strong> tab</li>
+    <li>Find <code>easyPlaceMode</code> and toggle it <strong>ON</strong></li>
+    <li>Alternatively, bind a hotkey to <code>easyPlaceToggle</code> in the Hotkeys tab for quick toggling</li>
+  </ol>
+
+  <h3>Using Easy Place</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Action</th><th>What Happens</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><kbd>Right Click</kbd> (the use key)</td>
+          <td>Auto-places the correct schematic block at the nearest missing position</td>
+        </tr>
+        <tr>
+          <td>Hold <kbd>Right Click</kbd> (if Hold enabled)</td>
+          <td>Continuously places blocks while held — good for long walls</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Easy Place Protocol — Critical for Realms</h3>
+  <p>Directional blocks (stairs, logs, pistons, observers, hoppers, dispensers) need the server to receive extra information about <em>which direction to face them</em>. This requires the "Accurate Block Placement Protocol." Configure via <code>easyPlaceProtocolVersion</code> in Generic settings:</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Protocol</th><th>Server Requirement</th><th>What Works</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Auto</strong> (default)</td>
+          <td>None — auto-detects</td>
+          <td>Slabs only on vanilla/Realms; full on Fabric servers with Carpet</td>
+        </tr>
+        <tr>
+          <td><strong>Version 2</strong></td>
+          <td>Carpet Extra mod + <code>accurateBlockPlacement</code> rule enabled</td>
+          <td>Full rotation for all block types</td>
+        </tr>
+        <tr>
+          <td><strong>Version 3</strong></td>
+          <td>Litemoretica mod on server</td>
+          <td>Full rotation for all block types</td>
+        </tr>
+        <tr>
+          <td><strong>Slabs Only</strong></td>
+          <td>None — vanilla compatible</td>
+          <td>Only top/bottom slab distinction; all other orientations random</td>
+        </tr>
+        <tr>
+          <td><strong>None</strong></td>
+          <td>None</td>
+          <td>No orientation correction at all</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-danger">
+    <span class="callout-icon">🚫</span>
+    <div class="callout-body">
+      <h5>Ghost Block Warning on Realms (1.18.2+)</h5>
+      <p>Do NOT set <code>easyPlaceProtocolVersion</code> to Version 2 or 3 on vanilla Realms. Minecraft 1.18.2+ rejects modified block-placement packets from unrecognized protocols, causing ghost blocks (blocks appear client-side but don't exist on the server). Leave it on <strong>Auto</strong> or <strong>Slabs Only</strong>.</p>
+    </div>
+  </div>
+
+  <h3>What Works on Realms with Easy Place</h3>
+  <div class="card-grid">
+    <div class="card" style="border-left: 3px solid var(--green);">
+      <h4 style="color:var(--green);">✓ Works Perfectly</h4>
+      <ul class="bullet">
+        <li>Non-directional blocks (stone, glass, dirt, wool…)</li>
+        <li>Top vs. bottom slabs</li>
+        <li>Any block without orientation properties</li>
+        <li>Auto hotbar switching to the correct block</li>
+      </ul>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--red);">
+      <h4 style="color:var(--red);">✗ Broken on Realms</h4>
+      <ul class="bullet">
+        <li>Stairs (facing + half)</li>
+        <li>Logs (axis orientation)</li>
+        <li>Pistons, dispensers, droppers</li>
+        <li>Observers, hoppers</li>
+        <li>Any block with a facing/rotation property</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>For directional blocks on Realms: place them manually by hand, using the ghost overlay as a guide for <em>where</em> they go and the block info overlay to see which direction they should face.</p>
+
+  <h3>Easy Place Configuration Options</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Setting</th><th>Default</th><th>What It Does</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>easyPlaceMode</code></td>
+          <td>false</td>
+          <td>Master toggle for Easy Place</td>
+        </tr>
+        <tr>
+          <td><code>easyPlaceHold</code></td>
+          <td>true</td>
+          <td>Place continuously while right-click is held (vs. one click = one block)</td>
+        </tr>
+        <tr>
+          <td><code>easyPlaceFirst</code></td>
+          <td>true</td>
+          <td>Place closest block first (true) or farthest first (false)</td>
+        </tr>
+        <tr>
+          <td><code>easyPlaceVanillaReach</code></td>
+          <td>false</td>
+          <td>Limit reach to 4.5 blocks so servers don't reject far placements</td>
+        </tr>
+        <tr>
+          <td><code>easyPlaceSwapInterval</code></td>
+          <td>0 ms</td>
+          <td>Delay after hotbar swap before placing — increase for high-ping servers</td>
+        </tr>
+        <tr>
+          <td><code>easyPlaceProtocolVersion</code></td>
+          <td>Auto</td>
+          <td>Which rotation protocol to use (see table above)</td>
+        </tr>
+        <tr>
+          <td><code>pickBlockAuto</code></td>
+          <td>false</td>
+          <td>Auto-switch hotbar to the needed block (works with Easy Place)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────── -->
+<!-- SECTION: SCHEMATIC VERIFIER -->
+<!-- ──────────────────────────────────────────── -->
+<section id="verifier">
+  <div class="section-header">
+    <span class="section-icon">🔍</span>
+    <h2>Schematic Verifier</h2>
+  </div>
+
+  <p>The Schematic Verifier scans your build and compares every block against the schematic. It answers: "What did I get wrong, and where is it?" It highlights mismatches in-world with colored overlays and lists them in a GUI.</p>
+
+  <div class="callout callout-info">
+    <span class="callout-icon">ℹ️</span>
+    <div class="callout-body">
+      <h5>Fully Client-Side</h5>
+      <p>The verifier reads data the game client already has (chunk data and the schematic in memory). No server permissions, no server mods. Works identically on Realms, vanilla servers, or singleplayer.</p>
+    </div>
+  </div>
+
+  <h3>Opening the Verifier</h3>
+  <p>Press <kbd>M</kbd><kbd>V</kbd> to open the Schematic Verifier GUI. Make sure you have a schematic placement active (visible cyan outline) before starting a scan.</p>
+
+  <h3>Result Categories</h3>
+  <div class="legend-grid">
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#5588ff;"></div>
+      <div>
+        <div class="legend-label">MISSING</div>
+        <div class="legend-desc">Schematic expects a block; world has air</div>
+      </div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#ff4444;"></div>
+      <div>
+        <div class="legend-label">WRONG BLOCK</div>
+        <div class="legend-desc">Different block type than required</div>
+      </div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#ff9900;"></div>
+      <div>
+        <div class="legend-label">WRONG STATE</div>
+        <div class="legend-desc">Right block, wrong orientation or property</div>
+      </div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#ff55aa;"></div>
+      <div>
+        <div class="legend-label">EXTRA</div>
+        <div class="legend-desc">World has a block; schematic expects air</div>
+      </div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#44cc44;"></div>
+      <div>
+        <div class="legend-label">CORRECT</div>
+        <div class="legend-desc">Exact match (not highlighted by default)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-warn">
+    <span class="callout-icon">⚠️</span>
+    <div class="callout-body">
+      <h5>WRONG STATE is the Most Important Category for Redstone</h5>
+      <p>A piston facing the wrong way, an observer pointing in the wrong direction, or a hopper aimed incorrectly — all appear as WRONG STATE. The block <em>type</em> is correct, but the orientation isn't. These are invisible to a naked eye but break technical builds entirely. Always scan for WRONG STATE mismatches on redstone projects.</p>
+    </div>
+  </div>
+
+  <h3>Verifier Workflow</h3>
+  <ol class="steps">
+    <li>Position and lock the placement, then start building</li>
+    <li>Press <kbd>M</kbd><kbd>V</kbd> to open the Schematic Verifier</li>
+    <li>Click "Start" to begin the scan (it runs chunk by chunk in the background)</li>
+    <li>Colored overlays appear on problem blocks in-world</li>
+    <li>In the GUI, click a category header to select all problems of that type</li>
+    <li>The <strong>closest errors</strong> are highlighted in the Info HUD — navigate to them</li>
+    <li>Look at a problem block to see the detailed overlay: "Expected: oak_stairs[facing=north] | Found: oak_stairs[facing=east]"</li>
+    <li>Fix the block, re-run (or use Auto-Refresh)</li>
+  </ol>
+
+  <h3>Key Settings</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Setting</th><th>What It Does</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>verifierOverlay</code></td>
+          <td>Toggle the colored in-world error highlight overlay</td>
+        </tr>
+        <tr>
+          <td><code>verifierErrorHighlightAlpha</code></td>
+          <td>Transparency of error highlights (default 0.2 — subtle)</td>
+        </tr>
+        <tr>
+          <td><code>verifierErrorHighlightMaxPositions</code></td>
+          <td>Max number of positions highlighted at once (default 1000)</td>
+        </tr>
+        <tr>
+          <td><code>schematicVerifierUseBlockModels</code></td>
+          <td>Use full block model shapes for highlights (more accurate outline)</td>
+        </tr>
+        <tr>
+          <td>Auto-Refresh</td>
+          <td>Re-verifies affected chunks automatically when blocks change in the world</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Pro Verifier Tips</h3>
+  <div class="tip-grid">
+    <div class="tip-card">
+      <h5>Verify Per Section</h5>
+      <p>Run the verifier after completing each floor or section — don't wait until the whole build is done. Mistakes are faster and cheaper to fix with fresh context.</p>
+    </div>
+    <div class="tip-card">
+      <h5>Use Layer Mode with Verifier</h5>
+      <p>Activate Single Layer mode and set RENDER_LAYERS scope in the verifier GUI to check just the layer you're working on — the list won't be cluttered by errors from floors you haven't built yet.</p>
+    </div>
+    <div class="tip-card">
+      <h5>Ignore EXTRA Blocks Temporarily</h5>
+      <p>If you're building in an existing area and some "extra" blocks are intentional terrain, use the Ignore feature in the verifier GUI to remove those entries from the list.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────── -->
+<!-- SECTION: MATERIAL LIST -->
+<!-- ──────────────────────────────────────────── -->
+<section id="materials">
+  <div class="section-header">
+    <span class="section-icon">📦</span>
+    <h2>Material List</h2>
+  </div>
+
+  <p>The Material List tells you exactly what blocks you need, how many you still need to collect, and how many you currently have. It's your shopping list and progress tracker in one.</p>
+
+  <h3>Opening the Material List</h3>
+  <p>Press <kbd>M</kbd><kbd>L</kbd> to open the Material List GUI. Alternatively: <kbd>M</kbd> → main menu → Material List.</p>
+
+  <h3>What the Columns Mean</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Column</th><th>Meaning</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Total</strong></td>
+          <td>Full quantity required for the entire schematic</td>
+        </tr>
+        <tr>
+          <td><strong>Missing</strong></td>
+          <td>How many of this block are not yet placed (or placed incorrectly)</td>
+        </tr>
+        <tr>
+          <td><strong>Available</strong></td>
+          <td>How many you currently carry (in inventory, hotbar, or nearby storage)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Working with the Material List</h3>
+  <ul class="bullet">
+    <li><strong>Sort by column</strong> — click a column header to sort by that value; click again to reverse. Sort by Missing to see what you need most.</li>
+    <li><strong>Hide Available</strong> — toggle to show only items you still need to collect; removes fully-stocked items from the list.</li>
+    <li><strong>Ignore entry</strong> — remove a material from the list (e.g., blocks you're intentionally skipping or substituting).</li>
+    <li><strong>Multiplier</strong> — scale the total/missing counts if you're building multiple copies of the schematic.</li>
+  </ul>
+
+  <h3>Material List HUD</h3>
+  <p>The HUD displays a live overlay of missing items while you play — you don't have to keep reopening the GUI. It shows item icons and counts and updates in real time as you pick up and place blocks.</p>
+
+  <ul class="bullet">
+    <li>Enable: Configuration → Info Overlays → <code>materialListHudMaxLines</code> controls how many items show</li>
+    <li><code>materialListSlotHighlight</code> — highlights hotbar slots that hold needed materials (on by default)</li>
+  </ul>
+
+  <h3>Scoping the Material List</h3>
+  <p>You can count materials for different things:</p>
+  <ul class="bullet">
+    <li><strong>From schematic file</strong> — counts everything in the schematic regardless of what's built</li>
+    <li><strong>From active placement</strong> — compares the schematic against the real world and shows only what's still missing</li>
+    <li><strong>From area selection</strong> — counts materials within a defined selection box</li>
+    <li><strong>Layer-scoped</strong> — when layer rendering is active, scope the material list to only the visible layers</li>
+  </ul>
+
+  <div class="callout callout-tip">
+    <span class="callout-icon">💡</span>
+    <div class="callout-body">
+      <h5>Inventory Integration</h5>
+      <p>Open a nearby chest before checking the material list — Litematica scans the open container and includes its contents in the "Available" count. Combined with <code>materialListFromContainer</code> being enabled by default, you can check your storage and plan your gathering trips efficiently.</p>
+    </div>
+  </div>
+
+  <h3>Exporting the Material List</h3>
+  <p>The material list can be exported as a formatted table (CSV or ASCII). Use external tools like the <a href="https://resourcecalculator.com/minecraft/plugins/litematica/" style="color:var(--blue-bright);">Resource Calculator Litematica plugin</a> to plan complex material gathering outside the game.</p>
+</section>
+
+<!-- ──────────────────────────────────────────── -->
+<!-- SECTION: PLACEMENT CONTROLS -->
+<!-- ──────────────────────────────────────────── -->
+<section id="placement-controls">
+  <div class="section-header">
+    <span class="section-icon">🎯</span>
+    <h2>Placement Controls — Fine-Tuning Position &amp; Rotation</h2>
+  </div>
+
+  <p>Getting the schematic placement exactly aligned to your world is critical. A single block off means the entire ghost overlay is wrong. Here's the complete set of controls for fine-tuning.</p>
+
+  <h3>Nudging Placement</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Control</th><th>Effect</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><kbd>LEFT_ALT</kbd> + scroll (in Schematic Placement mode)</td>
+          <td>Move placement 1 block in the direction you're looking</td>
+        </tr>
+        <tr>
+          <td><kbd>LEFT_ALT</kbd> + <kbd>BUTTON_3</kbd> (middle drag)</td>
+          <td>Move entire selection</td>
+        </tr>
+        <tr>
+          <td>Click with tool (left or right)</td>
+          <td>Teleport placement origin to clicked block</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Placement Settings Screen (KP_SUBTRACT)</h3>
+  <p>The most powerful placement adjustment tool. Press <kbd>KP_SUBTRACT</kbd> to open it for the currently selected placement:</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h4>Rotation</h4>
+      <p style="font-size:0.875rem;">Rotate the schematic 90°, 180°, or 270° around the Y axis. Four orientations: North, East, South, West. Rotates the entire ghost overlay.</p>
+    </div>
+    <div class="card">
+      <h4>Mirroring</h4>
+      <p style="font-size:0.875rem;">Mirror on the X axis (left/right flip) or Z axis (front/back flip). Useful for symmetric builds or when you have the left half and need to mirror it.</p>
+    </div>
+    <div class="card">
+      <h4>Coordinate Offset</h4>
+      <p style="font-size:0.875rem;">Enter exact X, Y, Z offsets. Perfect for aligning to chunk boundaries or specific coordinates you know in advance.</p>
+    </div>
+    <div class="card">
+      <h4>Lock/Unlock</h4>
+      <p style="font-size:0.875rem;">Lock the placement to prevent accidental moves. The cyan outline changes appearance when locked. Always lock after positioning.</p>
+    </div>
+  </div>
+
+  <h3>Aligning to Existing Structures</h3>
+  <ol class="steps">
+    <li>Load the schematic and switch to Schematic Placement mode</li>
+    <li>Click near your intended build location with the tool to get in the ballpark</li>
+    <li>Use <kbd>LEFT_ALT</kbd> + scroll to nudge precisely in each axis (look in each direction to nudge that way)</li>
+    <li>Use the ghost overlay as a guide — the block outline shows exactly where each block should be</li>
+    <li>Open <kbd>KP_SUBTRACT</kbd> to rotate or mirror if needed</li>
+    <li>Lock the placement once aligned</li>
+  </ol>
+
+  <div class="callout callout-tip">
+    <span class="callout-icon">💡</span>
+    <div class="callout-body">
+      <h5>Multiple Placements from One Schematic</h5>
+      <p>You can load one schematic and create multiple separate placements — for example, a single tower schematic placed 4 times at each corner of a castle courtyard. Load once, position multiple times. Each placement can be rotated/mirrored independently.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────── -->
+<!-- SECTION: CAPTURE WORKFLOW -->
+<!-- ──────────────────────────────────────────── -->
+<section id="capture">
+  <div class="section-header">
+    <span class="section-icon">📸</span>
+    <h2>Schematic Capture Workflow</h2>
+  </div>
+
+  <p>Capturing a build as a schematic — to share, to rebuild elsewhere, or to use as a reference for a future project.</p>
+
+  <h3>Step-by-Step Capture</h3>
+  <ol class="steps">
+    <li>
+      <div>
+        <strong>Prepare the area</strong><br>
+        <span style="color:var(--text-muted); font-size:0.875rem;">Turn off any active redstone contraptions (piston heads mid-extend, powered observers, etc.) — these will be captured in their current state. Stop any tile entity activity you don't want frozen in the schematic.</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>Switch to Area Selection mode</strong><br>
+        <span style="color:var(--text-muted); font-size:0.875rem;">Hold the tool item and <kbd>LEFT_CONTROL</kbd>+scroll to Mode 1, or press <kbd>M</kbd> and select Area Selection.</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>Define the selection</strong><br>
+        <span style="color:var(--text-muted); font-size:0.875rem;">Left-click one corner, right-click the opposite corner (Corners mode). Make sure the selection fully contains the structure, including blocks slightly below the floor and above the highest point.</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>Fine-tune with nudge</strong><br>
+        <span style="color:var(--text-muted); font-size:0.875rem;">Middle-click to select a corner, then <kbd>LEFT_ALT</kbd>+scroll to nudge it precisely. Open the Area Editor (<kbd>KP_MULTIPLY</kbd>) to see exact coordinates and adjust numerically.</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>Load all chunks</strong><br>
+        <span style="color:var(--text-muted); font-size:0.875rem;">Walk the entire perimeter of the selection to ensure all chunks in the area are loaded. Watch the "Missing Chunks" counter in the bottom-right — wait for it to reach 0.</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>Name the schematic and save</strong><br>
+        <span style="color:var(--text-muted); font-size:0.875rem;">Press <kbd>LEFT_CONTROL</kbd>+<kbd>LEFT_ALT</kbd>+<kbd>S</kbd>, or open the Area Editor (<kbd>KP_MULTIPLY</kbd>) → name your schematic → Save Schematic. The <code>.litematic</code> file saves to <code>.minecraft/schematics/</code>.</span>
+      </div>
+    </li>
+  </ol>
+
+  <h3>Multi-Region Capture (Advanced)</h3>
+  <p>For complex builds with distinct sections you want to manage separately, use multiple sub-region boxes:</p>
+  <ul class="bullet">
+    <li>Press <kbd>M</kbd><kbd>A</kbd> to add additional selection boxes</li>
+    <li>Name each sub-region in the Area Editor</li>
+    <li>All sub-regions save together into one <code>.litematic</code> file</li>
+    <li>When placing, you can toggle individual sub-regions on/off</li>
+  </ul>
+
+  <h3>Multiplayer Capture Limitations</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Data Type</th><th>Captured on Realms?</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Block types and states (facing, half, axis, etc.)</td>
+          <td><span class="status-yes">✓ Yes — full accuracy</span></td>
+        </tr>
+        <tr>
+          <td>Chest / container inventories</td>
+          <td><span class="status-no">✗ No — always empty</span></td>
+        </tr>
+        <tr>
+          <td>Sign text and banner patterns</td>
+          <td><span class="status-partial">~ Partial</span></td>
+        </tr>
+        <tr>
+          <td>Villager trades and spawner data</td>
+          <td><span class="status-no">✗ No</span></td>
+        </tr>
+        <tr>
+          <td>Entities (mobs, item frames, armor stands)</td>
+          <td><span class="status-partial">~ Basic data only</span></td>
+        </tr>
+        <tr>
+          <td>Scheduled block ticks (redstone timing)</td>
+          <td><span class="status-no">✗ No</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────── -->
+<!-- SECTION: WORKS ON REALMS -->
+<!-- ──────────────────────────────────────────── -->
+<section id="realms">
+  <div class="section-header">
+    <span class="section-icon">🌐</span>
+    <h2>Works on Realms — What's Possible Without Server Mods</h2>
+  </div>
+
+  <p>Litematica is a client mod. Everything that doesn't need to send special commands or modify server-side data works on vanilla Realms with no extra setup.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Feature</th><th>Works on Realms?</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Ghost schematic rendering / overlay</td>
+          <td><span class="status-yes">✓ Yes</span></td>
+          <td>Purely client-side rendering</td>
+        </tr>
+        <tr>
+          <td>Layer-by-layer building mode</td>
+          <td><span class="status-yes">✓ Yes</span></td>
+          <td>Client-side render filter</td>
+        </tr>
+        <tr>
+          <td>Schematic Verifier</td>
+          <td><span class="status-yes">✓ Yes</span></td>
+          <td>Reads client chunk data + schematic</td>
+        </tr>
+        <tr>
+          <td>Material List</td>
+          <td><span class="status-yes">✓ Yes</span></td>
+          <td>Reads schematic + your inventory</td>
+        </tr>
+        <tr>
+          <td>Area Selection</td>
+          <td><span class="status-yes">✓ Yes</span></td>
+          <td>Drawing boxes is client-only</td>
+        </tr>
+        <tr>
+          <td>Save schematic (capture build)</td>
+          <td><span class="status-yes">✓ Yes</span></td>
+          <td>Block states captured; inventories/NBT are empty</td>
+        </tr>
+        <tr>
+          <td>Easy Place — non-directional blocks</td>
+          <td><span class="status-yes">✓ Yes</span></td>
+          <td>Stone, glass, wool, dirt, etc. — works fine</td>
+        </tr>
+        <tr>
+          <td>Easy Place — slabs (top/bottom)</td>
+          <td><span class="status-yes">✓ Yes</span></td>
+          <td>Slab orientation handled in Slabs Only protocol</td>
+        </tr>
+        <tr>
+          <td>Easy Place — directional blocks (stairs, logs)</td>
+          <td><span class="status-no">✗ No</span></td>
+          <td>Requires Carpet Extra or Litemoretica on server</td>
+        </tr>
+        <tr>
+          <td>Schematic Paste (creative, if you're OP)</td>
+          <td><span class="status-partial">~ Yes, with OP</span></td>
+          <td>Realm owner or granted operator can use /setblock and /fill. Lower commandLimitPerTick to avoid kicks.</td>
+        </tr>
+        <tr>
+          <td>Schematic Paste — block NBT (chests, signs)</td>
+          <td><span class="status-no">✗ No</span></td>
+          <td>Commands can't send full NBT data</td>
+        </tr>
+        <tr>
+          <td>Fill / Delete / Replace Block modes</td>
+          <td><span class="status-partial">~ Yes, with OP</span></td>
+          <td>Send /fill and /setblock commands — need operator access</td>
+        </tr>
+        <tr>
+          <td>Block-update suppression during paste</td>
+          <td><span class="status-no">✗ No</span></td>
+          <td>Requires Carpet mod (fillUpdates false) — not available on Realms</td>
+        </tr>
+        <tr>
+          <td>Full inventory NBT in saved schematics</td>
+          <td><span class="status-no">✗ No</span></td>
+          <td>Requires Fabric Carpet + MasaGadget + pcaSyncProtocol</td>
+        </tr>
+        <tr>
+          <td>Schematic Edit (in-memory)</td>
+          <td><span class="status-yes">✓ Yes</span></td>
+          <td>Edits blueprint in RAM — no server involvement</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-tip">
+    <span class="callout-icon">💡</span>
+    <div class="callout-body">
+      <h5>Practical Realms Strategy</h5>
+      <p><strong>In survival:</strong> Use Easy Place freely — non-directional blocks will auto-place correctly, and for stairs/pistons/logs, use the ghost overlay as a visual guide and place them manually. The verifier will catch any wrong orientations.<br><br>
+      <strong>In creative (as realm owner):</strong> Schematic Paste works if you're OP. Lower <code>commandLimitPerTick</code> to 5–10 to avoid being kicked for packet spam. Expect empty containers.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────── -->
+<!-- SECTION: HOTKEYS REFERENCE -->
+<!-- ──────────────────────────────────────────── -->
+<section id="hotkeys">
+  <div class="section-header">
+    <span class="section-icon">⌨️</span>
+    <h2>Complete Hotkey Reference</h2>
+  </div>
+
+  <p>Most bindings below are Litematica/MaLiLib defaults. The one exception is <code>executeOperation</code> (<kbd>M</kbd><kbd>=</kbd> shown here) — that hotkey ships <strong>unbound</strong> and must be assigned manually. All hotkeys are fully rebindable via <kbd>M</kbd><kbd>C</kbd> → Hotkeys tab.</p>
+
+  <h3>Main Controls</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Hotkey</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><kbd>M</kbd></td><td>Open main menu</td></tr>
+        <tr><td><kbd>M</kbd> <kbd>C</kbd></td><td>Open Configuration &amp; Hotkeys screen</td></tr>
+        <tr><td><kbd>M</kbd> <kbd>T</kbd></td><td>Toggle tool item enabled/disabled</td></tr>
+        <tr><td><kbd>LEFT_CONTROL</kbd> + scroll</td><td>Cycle through tool modes (while holding tool item)</td></tr>
+        <tr><td><kbd>LEFT_CONTROL</kbd> <kbd>M</kbd></td><td>Cycle selection sub-mode (Corners ↔ Expand) or paste replace behavior</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Rendering</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Hotkey</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><kbd>M</kbd> <kbd>R</kbd></td><td>Toggle ALL mod rendering</td></tr>
+        <tr><td><kbd>M</kbd> <kbd>G</kbd></td><td>Toggle schematic ghost block rendering only</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Layer Controls</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Hotkey</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><kbd>M</kbd> + <kbd>PAGE_UP</kbd></td><td>Cycle to next layer mode</td></tr>
+        <tr><td><kbd>M</kbd> + <kbd>PAGE_DOWN</kbd></td><td>Cycle to previous layer mode</td></tr>
+        <tr><td><kbd>M</kbd> + <kbd>0</kbd></td><td>Snap active layer to player's current Y position</td></tr>
+        <tr><td><kbd>LEFT_ALT</kbd> + <kbd>UP</kbd></td><td>Move active layer up one block</td></tr>
+        <tr><td><kbd>LEFT_ALT</kbd> + <kbd>DOWN</kbd></td><td>Move active layer down one block</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>GUI Access</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Hotkey</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><kbd>M</kbd> <kbd>A</kbd></td><td>Add new selection box</td></tr>
+        <tr><td><kbd>M</kbd> <kbd>S</kbd></td><td>Open Selection Manager</td></tr>
+        <tr><td><kbd>M</kbd> <kbd>P</kbd></td><td>Open Schematic Placements list</td></tr>
+        <tr><td><kbd>M</kbd> <kbd>V</kbd></td><td>Open Schematic Verifier</td></tr>
+        <tr><td><kbd>M</kbd> <kbd>L</kbd></td><td>Open Material List</td></tr>
+        <tr><td><kbd>KP_MULTIPLY</kbd></td><td>Open Area Editor (for current selection)</td></tr>
+        <tr><td><kbd>KP_SUBTRACT</kbd></td><td>Open Placement Settings (for selected placement)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Selection &amp; Placement Manipulation</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Hotkey</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><kbd>BUTTON_1</kbd> (left click, tool mode)</td><td>Place corner 1 of selection / move placement origin</td></tr>
+        <tr><td><kbd>BUTTON_2</kbd> (right click, tool mode)</td><td>Place corner 2 / Easy Place action</td></tr>
+        <tr><td><kbd>BUTTON_3</kbd> (middle click, tool mode)</td><td>Pick block (first mode) / select element</td></tr>
+        <tr><td><kbd>M</kbd> + <kbd>BUTTON_3</kbd></td><td>Toggle pick block mode</td></tr>
+        <tr><td><kbd>LEFT_ALT</kbd> + scroll</td><td>Nudge selected element/placement in looking direction</td></tr>
+        <tr><td><kbd>LEFT_ALT</kbd> + <kbd>BUTTON_3</kbd></td><td>Move entire selection</td></tr>
+        <tr><td><kbd>LEFT_CONTROL</kbd> + <kbd>LEFT_ALT</kbd> + <kbd>S</kbd></td><td>Save selection as schematic</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Operations (Fill / Delete / Paste)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Hotkey</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><kbd>M</kbd> <kbd>=</kbd></td><td><code>executeOperation</code> — execute Delete, Fill, Replace Block, or Paste (unbound by default; assigned here to <kbd>M</kbd><kbd>=</kbd>)</td></tr>
+        <tr><td><kbd>LEFT_CONTROL</kbd> <kbd>M</kbd></td><td>In Delete mode: toggle target between Area Selection and Schematic Placement volume</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────────────── -->
+<!-- SECTION: PRO TIPS -->
+<!-- ──────────────────────────────────────────── -->
+<section id="protips">
+  <div class="section-header">
+    <span class="section-icon">💡</span>
+    <h2>Pro Tips &amp; Workflows</h2>
+  </div>
+
+  <div class="tip-grid">
+    <div class="tip-card">
+      <h5>M+0 is Your Best Friend</h5>
+      <p>While building layer by layer, press M+0 every time you change floors. It snaps the ghost to your current Y position without counting a single block.</p>
+    </div>
+    <div class="tip-card">
+      <h5>Lock Placements Immediately</h5>
+      <p>After positioning a placement, lock it in the Placement Settings (KP_SUBTRACT). One accidental click in Schematic Placement mode will otherwise move the origin, making the whole overlay wrong.</p>
+    </div>
+    <div class="tip-card">
+      <h5>Middle-Click Selects Placements</h5>
+      <p>In Schematic Placement mode, middle-clicking anywhere near the ghost overlay selects that placement. You don't need to open a GUI — just middle-click on the structure you want to work with.</p>
+    </div>
+    <div class="tip-card">
+      <h5>Toggle Ghost to Check Progress</h5>
+      <p>Press M+G to instantly toggle the ghost off and see your real build, then M+G again to compare with the schematic. Do this constantly while building to catch drift early.</p>
+    </div>
+    <div class="tip-card">
+      <h5>WRONG STATE &gt; WRONG BLOCK</h5>
+      <p>In the verifier, always fix WRONG STATE mismatches first on redstone/mechanical builds. A piston facing 90° wrong looks fine visually but breaks the entire contraption.</p>
+    </div>
+    <div class="tip-card">
+      <h5>Scope Material List to Current Layer</h5>
+      <p>When building in Single Layer mode, scope the material list to visible layers only. You see exactly what blocks you need for just the next few floors, not the entire build.</p>
+    </div>
+    <div class="tip-card">
+      <h5>One Schematic, Multiple Placements</h5>
+      <p>Load a schematic once, then create multiple placements from it — rotated, mirrored, or placed in different locations. Each placement is independent. Great for symmetric builds or tiling.</p>
+    </div>
+    <div class="tip-card">
+      <h5>Edit Mode Exit Warning</h5>
+      <p>There is no visual alarm when you're in Schematic Edit mode and accidentally build in the real world near the schematic. Get in the habit of checking the tool HUD (bottom-left) to confirm which mode is active.</p>
+    </div>
+    <div class="tip-card">
+      <h5>Turn Off Redstone Before Capturing</h5>
+      <p>Stop pistons, depower observers, and turn off clocks before saving a schematic. Otherwise you'll capture pistons mid-extend or observers in a powered state, which looks wrong in the loaded schematic.</p>
+    </div>
+    <div class="tip-card">
+      <h5>Easy Place + Placement Restriction Combo</h5>
+      <p>Enable Placement Restriction alongside Easy Place. It prevents you from accidentally placing blocks in the wrong spot — if you click where the schematic doesn't expect a block, the click is blocked.</p>
+    </div>
+    <div class="tip-card">
+      <h5>Paste Throttle on Realms</h5>
+      <p>If using Schematic Paste on Realms (as OP), set commandLimitPerTick to 5–10. Higher values get you kicked for packet spam. It takes longer but it works.</p>
+    </div>
+    <div class="tip-card">
+      <h5>Expand Mode for Organic Selection</h5>
+      <p>Switch to Expand sub-mode (Ctrl+M in Area Selection) and left-click edges to grow the selection in one direction at a time — good for selections that need to fit precisely around an irregular structure.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <h3>Quick Reference: What to Do When Things Go Wrong</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Problem</th><th>Solution</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Ghost overlay disappeared</td>
+          <td>Press <kbd>M</kbd><kbd>G</kbd> to toggle it back on; also check <kbd>M</kbd><kbd>R</kbd> (all rendering)</td>
+        </tr>
+        <tr>
+          <td>Ghost moved to wrong location</td>
+          <td>Undo: open Placement Settings (<kbd>KP_SUBTRACT</kbd>) and set exact coordinates; or middle-click to reselect, then nudge back</td>
+        </tr>
+        <tr>
+          <td>Placement keeps moving accidentally</td>
+          <td>Lock the placement in Placement Settings (<kbd>KP_SUBTRACT</kbd>)</td>
+        </tr>
+        <tr>
+          <td>Breaking/placing blocks edits the schematic instead of the world</td>
+          <td>You're in Schematic Edit mode (mode 9). Switch to a different mode: <kbd>LEFT_CONTROL</kbd>+scroll</td>
+        </tr>
+        <tr>
+          <td>Easy Place causing ghost blocks on Realms</td>
+          <td>Set <code>easyPlaceProtocolVersion</code> to "Slabs Only" or "Auto" in Generic config</td>
+        </tr>
+        <tr>
+          <td>Material list shows wrong counts</td>
+          <td>Open the Loaded Schematics menu and verify the correct placement is selected; re-run the material count</td>
+        </tr>
+        <tr>
+          <td>Schematic verifier shows everything wrong</td>
+          <td>The placement origin is probably off by 1 block — recheck alignment and nudge with <kbd>LEFT_ALT</kbd>+scroll</td>
+        </tr>
+        <tr>
+          <td>Paste Schematic does nothing on multiplayer</td>
+          <td>You need OP/operator permissions to use /setblock. On Realms, only the owner and granted operators can paste.</td>
+        </tr>
+        <tr>
+          <td>"Missing Chunks" warning when saving</td>
+          <td>Walk the full perimeter of your selection to load all chunks before saving</td>
+        </tr>
+        <tr>
+          <td>Schematic edit changes lost</td>
+          <td>Save from Loaded Schematics → "Save to File." Edits are in-memory only until explicitly saved.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+</main>
+</div>
+
+<a href="#" class="scroll-top" title="Back to top">↑</a>
+
+<script>
+// Highlight active nav link on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav a');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(link => link.classList.remove('active'));
+      const activeLink = document.querySelector(`nav a[href="#${entry.target.id}"]`);
+      if (activeLink) activeLink.classList.add('active');
+    }
+  });
+}, { threshold: 0.3 });
+
+sections.forEach(section => observer.observe(section));
+</script>
+
+</body>
+</html>
